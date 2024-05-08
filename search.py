@@ -139,7 +139,28 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # PriorityQueue를 이용한 UCS 구현
+    visited = set()
+
+    priQueue = util.PriorityQueue()
+    priQueue.push((problem.getStartState(), [], 0), 0)
+
+    while priQueue:
+        state, path, totalCost = priQueue.pop()
+
+        if problem.isGoalState(state):
+            return path
+
+        if state not in visited:
+            visited.add(state)
+
+            for nextState, action, cost in problem.getSuccessors(state):
+                if nextState not in visited:
+                    nextPath = path + [action]
+                    newTotalCost = totalCost + cost
+                    priQueue.push((nextState, nextPath, newTotalCost), newTotalCost)
+
+    return None
 
 def nullHeuristic(state, problem=None):
     """
