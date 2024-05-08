@@ -114,7 +114,27 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # Queue를 이용한 BFS 구현
+    visited = set()
+
+    queue = util.Queue()
+    queue.push((problem.getStartState(), []))
+
+    while queue:
+        state, path = queue.pop()
+
+        if problem.isGoalState(state):
+            return path
+
+        if state not in visited:
+            visited.add(state)
+
+            for nextState, action, cost in problem.getSuccessors(state):
+                if nextState not in visited:
+                    nextPath = path + [action]
+                    queue.push((nextState, nextPath))
+
+    return None
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
