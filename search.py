@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # search.py
 # ---------
 # Licensing Information:  You are free to use or extend these projects for
@@ -87,7 +89,27 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    # 재귀함수를 이용한 DFS 구현
+    visited = set()
+
+    def dfs(state, path):
+        if problem.isGoalState(state):
+            return path
+
+        if state not in visited:
+            visited.add(state)
+
+            for nextState, action, cost in problem.getSuccessors(state):
+                if nextState not in visited:
+                    nextPath = path + [action]
+                    result = dfs(nextState, nextPath)
+                    if result:
+                        return result
+
+            return None
+
+    start_state = problem.getStartState()
+    return dfs(start_state, [])
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
